@@ -1,0 +1,49 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% block content %}
+<div>    
+    <a href="{% url 'products' %}" class="btn btn-outline-primary">Retourner à la pharmacie</a>
+</div>
+<div class="container mt-5">
+    <h1>Votre Panier</h1>
+    
+    {% if items %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Produit</th>
+                    <th>Quantité</th>
+                    <th>Prix unitaire</th>
+                    <th>Total</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                    <tr>
+                        <td>{{ item.product.name }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.product.price }} €</td>
+                        <td>{{ item.get_total_price }} €</td>
+                        <td>
+                            <form method="post" action="{% url 'remove_from_cart' item.id %}" style="display:inline;">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+</form>
+
+                            <a href="{% url 'checkout' %}" class="btn btn-success btn-sm">Passer commande</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="3" class="text-end"><strong>Total :</strong></td>
+                    <td><strong>{{ total }} €</strong></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    {% else %}
+        <p>Votre panier est vide.</p>
+    {% endif %}
+</div>
+{% endblock content %}

@@ -1,0 +1,40 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Vos Médicaments</h1>
+
+    {% regroup products by category as category_list %}
+    {% for group in category_list %}
+        <h2 class="mt-4">{{ group.grouper.name }}</h2>
+        <div class="row">
+            {% for product in group.list %}
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        {% if product.image %}
+                            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text">{{ product.description|truncatewords:15 }}</p>
+                            <p><strong>Prix : </strong>{{ product.price }} FCFA</p>
+                            <p>
+                                {% if product.requires_prescription %}
+                                    <span class="badge bg-warning">Nécessite une ordonnance</span>
+                                {% else %}
+                                    <span class="badge bg-success">Disponible sans ordonnance</span>
+                                {% endif %}
+                            </p>
+                            <p></p>
+                            <a href="{% url 'product_detail' slug=product.slug %}" class="btn btn-primary">Voir Détails</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% empty %}
+        <p>Aucun produit disponible.</p>
+    {% endfor %}
+</div>
+{% endblock content %}

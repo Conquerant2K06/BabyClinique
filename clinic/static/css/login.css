@@ -1,0 +1,44 @@
+/* FOND GLOBAL */
+body {
+    background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+}
+
+/* FOND CARTE LOGIN */
+.login-card {
+    background: linear-gradient(to right, #00b894 50%, #ffffff 50%);
+}
+
+/* BOUTON LOGIN / PILULE BIENVENUE */
+.welcome-pill,
+.login-btn {
+    background-color: #00b894;
+}
+
+.login-btn:hover {
+    background-color: #019875;
+}
+
+/* CERCLE ILLUSTRATION */
+.circle-bg {
+    background-color: #d0f8ec;
+}
+
+/* PLANTES */
+.plant {
+    background-color: #00cec9;
+}
+
+/* TITRE DU FORMULAIRE */
+.login-title {
+    color: #444;
+}
+
+/* CHAMPS FORMULAIRES */
+.form-control:focus {
+    border-color: #00b894;
+}
+
+/* LIENS BAS DE FORMULAIRE */
+.create-account, .forgot-password {
+    color: #00b894;
+}
