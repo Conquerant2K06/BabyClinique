@@ -94,3 +94,10 @@ class CustomLoginForm(forms.Form):
         label='Se souvenir de moi'
     )
 
+from django import forms
+
+class ContactForm(forms.Form):
+    name = forms.CharField(label='Votre Nom', max_length=100)
+    email = forms.EmailField(label='Votre Email')
+    subject = forms.CharField(label='Sujet', max_length=100)
+    message = forms.CharField(label='Message', widget=forms.Textarea)

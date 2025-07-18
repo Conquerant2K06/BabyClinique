@@ -1,5 +1,5 @@
 {% extends "base/base.html" %}
-
+{% load static %}
 {% block content %}
 <div class="container mt-5">
     <h1>Passer la commande</h1>
@@ -13,46 +13,107 @@
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         
-        <div class="mb-3">
-            <label for="shipping_address" class="form-label">Adresse de livraison</label>
-            <textarea name="shipping_address" id="shipping_address" class="form-control" rows="3" required>{{ request.POST.shipping_address }}</textarea>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="mb-3">
+                    <label for="shipping_address" class="form-label">Adresse de livraison</label>
+                    <textarea name="shipping_address" id="shipping_address" class="form-control" rows="3" required>{{ request.POST.shipping_address }}</textarea>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="payment_method" class="form-label">Mode de paiement</label>
+                    <select name="payment_method" id="payment_method" class="form-select" required>
+                        <option value="">Choisissez un mode de paiement</option>
+                        {% for value, label in payment_choices %}
+                            <option value="{{ value }}" {% if request.POST.payment_method == value %}selected{% endif %}>
+                                {{ label }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                {% if requires_prescription %}
+                <div class="mb-3">
+                    <label for="prescription_file" class="form-label">Ordonnance médicale <span class="text-danger">(obligatoire pour certains produits)</span></label>
+                    <input type="file" name="prescription_file" id="prescription_file" class="form-control" accept=".pdf,.jpg,.png" required>
+                    <div class="form-text">Formats acceptés : PDF, JPG, PNG</div>
+                </div>
+                {% endif %}
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Résumé de la commande</h5>
+                    </div>
+                    <div class="card-body">
+                        {% for item in cart_items %}
+                        <div class="d-flex justify-content-between mb-2">
+                            <div>
+                                <strong>{{ item.product.name }}</strong><br>
+                                <small class="text-muted">{{ item.quantity }} x {{ item.unit_price }} €</small>
+                            </div>
+                            <div class="text-end">
+                                <strong>{{ item.total_price }} €</strong>
+                            </div>
+                        </div>
+                        {% if not forloop.last %}<hr class="my-2">{% endif %}
+                        {% endfor %}
+                        
+                        <hr>
+                        <div class="d-flex justify-content-between">
+                            <strong>Total :</strong>
+                            <strong class="text-primary">{{ total_cart }} €</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         
-        {% if requires_prescription %}
-        <div class="mb-3">
-            <label for="prescription_file" class="form-label">Ordonnance médicale (obligatoire pour certains produits)</label>
-            <input type="file" name="prescription_file" id="prescription_file" class="form-control" accept=".pdf,.jpg,.png" required>
+        <h3 class="mt-4">Détail du panier</h3>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Produit</th>
+                        <th>Quantité</th>
+                        <th>Prix unitaire</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart_items %}
+                    <tr>
+                        <td>
+                            {{ item.product.name }}
+                            {% if item.product.requires_prescription %}
+                                <span class="badge bg-warning text-dark ms-2">Ordonnance requise</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.unit_price }} €</td>
+                        <td>{{ item.total_price }} €</td>
+                    </tr>
+                    {% endfor %}
+                    <tr class="table-info">
+                        <td colspan="3" class="text-end"><strong>Total général :</strong></td>
+                        <td><strong>{{ total_cart }} €</strong></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-        {% endif %}
         
-        <h3>Résumé du panier</h3>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Produit</th>
-                    <th>Quantité</th>
-                    <th>Prix unitaire</th>
-                    <th>Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in cart_items %}
-                <tr>
-                    <td>{{ item.product.name }}</td>
-                    <td>{{ item.quantity }}</td>
-                    <td>{{ item.unit_price }} €</td>
-                    <td>{{ item.total_price }} €</td>
-                </tr>
-                {% endfor %}
-                <tr>
-                    <td colspan="3" class="text-end"><strong>Total :</strong></td>
-                    <td><strong>{{ total_cart }} €</strong></td>
-                </tr>
-            </tbody>
-        </table>
-        
-        <button type="submit" class="btn btn-primary">Confirmer la commande</button>
-        <a href="{% url 'cart_detail' %}" class="btn btn-secondary">Retour au panier</a>
+        <div class="d-flex justify-content-between mt-4">
+            <a href="{% url 'cart_detail' %}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Retour au panier
+            </a>
+            <button type="submit" class="btn btn-primary btn-lg">
+                <i class="fas fa-check"></i> Confirmer la commande
+            </button>
+        </div>
     </form>
 </div>
+
+<script src="{% static 'js/checkout.js' %}"></script>
+
 {% endblock content %}

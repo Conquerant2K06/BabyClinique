@@ -33,14 +33,14 @@ class CartItemAdmin(admin.ModelAdmin):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('user', 'status', 'created_at')
+    list_display = ('user', 'status', 'payment_method', 'total_price', 'created_at')
     search_fields = ('user__username',)
-    list_filter = ('status',)
+    list_filter = ('status', 'payment_method')
     ordering = ('-created_at',)
 
 @admin.register(OrderItem)
 class OrderItemAdmin(admin.ModelAdmin):
     list_display = ('order', 'product', 'quantity', 'price')
     search_fields = ('order__user__username', 'product__name')
-    list_filter = ('order',)
+    list_filter = ('order', 'order__payment_method')
     ordering = ('-order__created_at',)

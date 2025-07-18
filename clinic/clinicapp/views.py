@@ -146,7 +146,6 @@ class RemoveFromCartView(LoginRequiredMixin, View):
         messages.success(request, "Article retiré du panier.")
         return redirect('cart_detail')
 
-
 from django.db.models import Sum, F
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib import messages
@@ -175,24 +174,47 @@ class CheckoutView(LoginRequiredMixin, View):
         
         requires_prescription = any(item.product.requires_prescription for item in cart.items.all())
         
+        # Récupérer les choix de paiement depuis le modèle
+        payment_choices = Order.PAYMENT_METHOD_CHOICES
+        
         return render(request, 'checkout.html', {
             'cart': cart,
             'cart_items': cart_items,
             'total_cart': total_cart,
             'active_page': 'checkout',
-            'requires_prescription': requires_prescription
+            'requires_prescription': requires_prescription,
+            'payment_choices': payment_choices
         })
 
     def post(self, request):
         cart = get_object_or_404(Cart, user=request.user)
         shipping_address = request.POST.get('shipping_address')
         prescription_file = request.FILES.get('prescription_file')
+        payment_method = request.POST.get('payment_method')
 
         # Vérifier si une ordonnance est requise
         requires_prescription = any(item.product.requires_prescription for item in cart.items.all())
         
+        # Validation des champs requis
+        errors = []
+        
+        if not shipping_address:
+            errors.append("L'adresse de livraison est requise.")
+        
+        if not payment_method:
+            errors.append("Veuillez sélectionner un mode de paiement.")
+        
         if requires_prescription and not prescription_file:
-            messages.error(request, "Une ordonnance est requise pour certains produits.")
+            errors.append("Une ordonnance est requise pour certains produits.")
+        
+        # Vérifier que le mode de paiement est valide
+        valid_payment_methods = [choice[0] for choice in Order.PAYMENT_METHOD_CHOICES]
+        if payment_method and payment_method not in valid_payment_methods:
+            errors.append("Mode de paiement invalide.")
+        
+        if errors:
+            for error in errors:
+                messages.error(request, error)
             
             # Recalculer les données pour le rendu en cas d'erreur
             cart_items = []
@@ -208,12 +230,15 @@ class CheckoutView(LoginRequiredMixin, View):
                 })
                 total_cart += item_total
             
+            payment_choices = Order.PAYMENT_METHOD_CHOICES
+            
             return render(request, 'checkout.html', {
                 'cart': cart,
                 'cart_items': cart_items,
                 'total_cart': total_cart,
                 'active_page': 'checkout',
-                'requires_prescription': requires_prescription
+                'requires_prescription': requires_prescription,
+                'payment_choices': payment_choices
             })
 
         # Calculer le prix total correct (quantité * prix)
@@ -221,12 +246,13 @@ class CheckoutView(LoginRequiredMixin, View):
         for item in cart.items.all():
             total_price += item.quantity * item.product.price
 
-        # Créer la commande
+        # Créer la commande avec le mode de paiement
         order = Order.objects.create(
             user=request.user,
             total_price=total_price,
             shipping_address=shipping_address,
-            prescription_file=prescription_file
+            prescription_file=prescription_file,
+            payment_method=payment_method
         )
 
         # Créer les articles de la commande
@@ -240,7 +266,11 @@ class CheckoutView(LoginRequiredMixin, View):
 
         # Vider le panier
         cart.items.all().delete()
-        messages.success(request, "Commande passée avec succès.")
+        
+        # Message de succès personnalisé selon le mode de paiement
+        payment_method_display = dict(Order.PAYMENT_METHOD_CHOICES).get(payment_method, payment_method)
+        messages.success(request, f"Commande passée avec succès. Mode de paiement : {payment_method_display}")
+        
         return redirect('order_confirmation', order_id=order.id)
     
 
@@ -275,10 +305,136 @@ class AddReviewView(LoginRequiredMixin, CreateView):
         return reverse_lazy('produit-detail', kwargs={'slug': self.kwargs['slug']})
 
 # Formulaire pour la page Contact
-class ContactForm(forms.Form):
-    name = forms.CharField(max_length=100, label="Votre nom")
-    email = forms.EmailField(label="Votre email")
-    message = forms.CharField(widget=forms.Textarea, label="Votre message")
+from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from .forms import ContactForm
+
+def contact(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            # Traitez les données du formulaire ici
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            subject = form.cleaned_data['subject']
+            message = form.cleaned_data['message']
+
+            # Envoyez un email, enregistrez dans la base de données, etc.
+            # Par exemple, envoyez un email :
+            # send_mail(subject, message, email, ['admin@example.com'])
+
+            return HttpResponse('Merci pour votre message!')
+    else:
+        form = ContactForm()
+
+    return render(request, 'contact.html', {'form': form})
+
+
+# views.py
+from django.shortcuts import render
+from django.db.models import Q
+from django.core.paginator import Paginator
+from .models import Product, Category
+
+def medication_list(request):
+    """Vue pour afficher la liste des médicaments avec recherche"""
+    
+    # Récupérer tous les produits
+    products = Product.objects.all().select_related('category')
+    
+    # Récupérer toutes les catégories pour le filtre
+    categories = Category.objects.all()
+    
+    # Paramètres de recherche
+    search_query = request.GET.get('search', '')
+    category_id = request.GET.get('category', '')
+    needs_prescription = request.GET.get('prescription', '')
+    no_prescription = request.GET.get('no_prescription', '')
+    
+    # Filtrage par terme de recherche
+    if search_query:
+        products = products.filter(
+            Q(name__icontains=search_query) | 
+            Q(description__icontains=search_query) |
+            Q(category__name__icontains=search_query)
+        )
+    
+    # Filtrage par catégorie
+    if category_id:
+        products = products.filter(category_id=category_id)
+    
+    # Filtrage par ordonnance
+    if needs_prescription:
+        products = products.filter(requires_prescription=True)
+    elif no_prescription:
+        products = products.filter(requires_prescription=False)
+    
+    # Tri par nom
+    products = products.order_by('category__name', 'name')
+    
+    # Pagination (optionnel)
+    paginator = Paginator(products, 12)  # 12 produits par page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    context = {
+        'products': products,  # ou page_obj si vous utilisez la pagination
+        'categories': categories,
+        'search_query': search_query,
+        'selected_category': category_id,
+        'needs_prescription': needs_prescription,
+        'no_prescription': no_prescription,
+        # 'page_obj': page_obj,  # si vous utilisez la pagination
+    }
+    
+    return render(request, 'medications/medication_list.html', context)
+
+
+# Alternative avec recherche AJAX (optionnel)
+from django.http import JsonResponse
+from django.template.loader import render_to_string
+
+def medication_search_ajax(request):
+    """Vue AJAX pour la recherche en temps réel"""
+    
+    if request.headers.get('X-Requested-With') != 'XMLHttpRequest':
+        return JsonResponse({'error': 'Requête non autorisée'}, status=400)
+    
+    search_query = request.GET.get('search', '')
+    category_id = request.GET.get('category', '')
+    needs_prescription = request.GET.get('prescription', '')
+    no_prescription = request.GET.get('no_prescription', '')
+    
+    products = Product.objects.all().select_related('category')
+    
+    # Appliquer les filtres
+    if search_query:
+        products = products.filter(
+            Q(name__icontains=search_query) | 
+            Q(description__icontains=search_query) |
+            Q(category__name__icontains=search_query)
+        )
+    
+    if category_id:
+        products = products.filter(category_id=category_id)
+    
+    if needs_prescription:
+        products = products.filter(requires_prescription=True)
+    elif no_prescription:
+        products = products.filter(requires_prescription=False)
+    
+    products = products.order_by('category__name', 'name')
+    
+    # Rendu du template partiel
+    html = render_to_string('medications/medication_cards.html', {
+        'products': products,
+    })
+    
+    return JsonResponse({
+        'html': html,
+        'count': products.count(),
+        'success': True
+    })
 
 # Formulaire pour la page Appointment
 class AppointmentForm(forms.Form):
@@ -358,7 +514,15 @@ class AppointmentView(FormView):
 def custom_404(request):
     return render(request, '404.html', {'active_page': '404'})
 
-# Vue pour la page de login
+
+
+from django.core.mail import send_mail
+from django.core.mail.message import EmailMessage
+from smtplib import SMTPException
+import logging
+
+logger = logging.getLogger(__name__)
+
 def login_view(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -369,13 +533,21 @@ def login_view(request):
             if user.is_staff or user.is_superuser:
                 login(request, user)
                 
-                send_mail(
-                    'Connexion réussie',
-                    f'Bonjour {username}, vous venez de vous connecter à votre compte.',
-                    'angeemmanuel2k06@gmail.com',
-                    [user.email],
-                    fail_silently=False,
-                )
+                # Tentative d'envoi d'email avec gestion d'erreur
+                try:
+                    send_mail(
+                        'Connexion réussie',
+                        f'Bonjour {username}, vous venez de vous connecter à votre compte.',
+                        'angeemmanuel2k06@gmail.com',
+                        [user.email],
+                        fail_silently=False,
+                    )
+                except SMTPException as e:
+                    logger.error(f"Erreur lors de l'envoi d'email de connexion: {e}")
+                    # Optionnel: ajouter un message d'information pour l'utilisateur
+                    messages.info(request, "Connexion réussie. Email de notification non envoyé.")
+                except Exception as e:
+                    logger.error(f"Erreur inattendue lors de l'envoi d'email: {e}")
                 
                 return redirect('index')
             else:
@@ -387,19 +559,26 @@ def login_view(request):
             User = get_user_model()
             try:
                 user_obj = User.objects.get(username=username)
-                send_mail(
-                    'Tentative de connexion échouée',
-                    'Une tentative de connexion à votre compte a échoué.',
-                    'angeemmanuel2k06@gmail.com',
-                    [user_obj.email],
-                    fail_silently=False,
-                )
+                # Tentative d'envoi d'email avec gestion d'erreur
+                try:
+                    send_mail(
+                        'Tentative de connexion échouée',
+                        'Une tentative de connexion à votre compte a échoué.',
+                        'angeemmanuel2k06@gmail.com',
+                        [user_obj.email],
+                        fail_silently=False,
+                    )
+                except SMTPException as e:
+                    logger.error(f"Erreur lors de l'envoi d'email d'échec de connexion: {e}")
+                except Exception as e:
+                    logger.error(f"Erreur inattendue lors de l'envoi d'email: {e}")
             except User.DoesNotExist:
                 pass
             
             return render(request, 'registration/login.html', {'active_page': 'login'})
     
     return render(request, 'registration/login.html', {'active_page': 'login'})
+
 
 # Vue pour la déconnexion
 @require_http_methods(['GET', 'POST'])

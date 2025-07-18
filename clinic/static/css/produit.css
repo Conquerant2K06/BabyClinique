@@ -1,0 +1,72 @@
+.search-container {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.medication-item {
+    transition: all 0.3s ease;
+}
+
+.medication-item.hidden {
+    display: none !important;
+}
+
+.category-section.hidden {
+    display: none;
+}
+
+.product-card {
+    transition: transform 0.2s;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+}
+
+.input-group-text {
+    background: white;
+    border-right: none;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
+
+#resultCount {
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+.btn-group .btn.active {
+    background-color: #007bff;
+    color: white;
+}
+
+.medication-grid.list-view .col-md-4 {
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+
+.medication-grid.list-view .product-card {
+    margin-bottom: 10px;
+}
+
+.medication-grid.list-view .card-body {
+    padding: 15px;
+}
+
+.medication-grid.list-view .card {
+    flex-direction: row;
+    align-items: center;
+}
+
+.medication-grid.list-view .card-img-top {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-right: 15px;
+}

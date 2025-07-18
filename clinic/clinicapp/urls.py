@@ -41,6 +41,7 @@ schema_view = get_schema_view(
       terms_of_service="https://www.google.com/policies/terms/",
       contact=openapi.Contact(email="contact@snippets.local"),
       license=openapi.License(name="BSD License"),
+      
    ),
    public=False,
     authentication_classes=[SessionAuthentication, BasicAuthentication],  # Authentification requise
@@ -58,6 +59,7 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from . import viewsets
 from django.contrib.auth import views as auth_views
+
 
 router = DefaultRouter()
 router.register(r'categories', viewsets.CategoryViewSet)
@@ -96,5 +98,7 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('cart/', CartView.as_view(), name='cart_detail'),
     path('cart/add/<int:product_id>/', AddToCartView.as_view(), name='add_to_cart'),
-    
+    path('medications/', views.medication_list, name='medication_list'),
+    path('medications/search/', views.medication_search_ajax, name='medication_search_ajax'),
+    path('medications/<slug:slug>/', ProductDetailView.as_view(), name='product_detail'),
 ]
