@@ -1,0 +1,162 @@
+{% extends "base/base.html" %}
+
+{% block title %}Confirmation de commande - {{ order.id }}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <!-- En-tête de confirmation -->
+            <div class="text-center mb-4">
+                <div class="alert alert-success">
+                    <h2><i class="fas fa-check-circle me-2"></i>Commande confirmée !</h2>
+                    <p class="mb-0">Merci pour votre commande. Vous recevrez un email de confirmation sous peu.</p>
+                </div>
+            </div>
+
+            <!-- Informations de la commande -->
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0"><i class="fas fa-receipt me-2"></i>Détails de la commande</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Numéro de commande :</strong> #{{ order.id }}</p>
+                            <p><strong>Date :</strong> {{ order.created_at|date:"d/m/Y à H:i" }}</p>
+                            <p><strong>Statut :</strong> 
+                                <span class="badge bg-warning text-dark">{{ order.get_status_display|default:"En attente" }}</span>
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Total :</strong> <span class="h5 text-primary">{{ order.total_price }} F CFA</span></p>
+                            <p><strong>Mode de paiement :</strong> À la livraison</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Adresse de livraison -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-truck me-2"></i>Adresse de livraison</h5>
+                </div>
+                <div class="card-body">
+                    <div class="bg-light p-3 rounded border-start border-primary border-4">
+                        {{ order.shipping_address|linebreaks }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Articles commandés -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-box me-2"></i>Articles commandés</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Produit</th>
+                                    <th>Quantité</th>
+                                    <th>Prix unitaire</th>
+                                    <th class="text-end">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in order.items.all %}
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            {% if item.product.image %}
+                                                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" 
+                                                     class="me-3" style="width: 50px; height: 50px; object-fit: cover;">
+                                            {% endif %}
+                                            <div>
+                                                <strong>{{ item.product.name }}</strong>
+                                                {% if item.product.requires_prescription %}
+                                                    <br><small class="text-muted">
+                                                        <i class="fas fa-prescription-bottle me-1"></i>Nécessite une ordonnance
+                                                    </small>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>{{ item.quantity }}</td>
+                                    <td>{{ item.price }} F CFA</td>
+                                    <td class="text-end">{{ item.get_total_price }} F CFA</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            <tfoot>
+                                <tr class="table-active">
+                                    <th colspan="3" class="text-end">Total de la commande :</th>
+                                    <th class="text-end h5 text-primary">{{ order.total_price }} F CFA</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ordonnance (si applicable) -->
+            {% if order.prescription_file %}
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-file-medical me-2"></i>Ordonnance médicale</h5>
+                </div>
+                <div class="card-body">
+                    <p><i class="fas fa-check-circle text-success me-2"></i>Ordonnance téléchargée avec succès</p>
+                    <a href="{{ order.prescription_file.url }}" target="_blank" class="btn btn-outline-primary btn-sm">
+                        <i class="fas fa-eye me-2"></i>Voir l'ordonnance
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Informations de livraison -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>Informations de livraison</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Délai de livraison :</strong><br>
+                            2-3 jours ouvrables</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Frais de livraison :</strong><br>
+                            Gratuit pour les commandes > 500 F CFA</p>
+                        </div>
+                    </div>
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Vous recevrez un SMS avec le suivi de votre commande dès qu'elle sera expédiée.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="text-center">
+                <a href="{% url 'products' %}" class="btn btn-primary me-3">
+                    <i class="fas fa-shopping-cart me-2"></i>Continuer mes achats
+                </a>
+                <a href="{% url 'order_confirmation' order.id %}" class="btn btn-outline-secondary">
+                    <i class="fas fa-eye me-2"></i>Voir ma commande
+                </a>
+            </div>
+
+            <!-- Contact -->
+            <div class="text-center mt-4">
+                <p class="text-muted">
+                    Une question sur votre commande ? 
+                    <a href="{% url 'contact' %}">Contactez-nous</a> ou appelez le 
+                    <strong>+225 0777612521</strong>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
