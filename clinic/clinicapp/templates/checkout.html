@@ -54,7 +54,7 @@
                                 <small class="text-muted">{{ item.quantity }} x {{ item.unit_price }} €</small>
                             </div>
                             <div class="text-end">
-                                <strong>{{ item.total_price }} €</strong>
+                                <strong>{{ item.total_price }} F CFA</strong>
                             </div>
                         </div>
                         {% if not forloop.last %}<hr class="my-2">{% endif %}
@@ -63,7 +63,7 @@
                         <hr>
                         <div class="d-flex justify-content-between">
                             <strong>Total :</strong>
-                            <strong class="text-primary">{{ total_cart }} €</strong>
+                            <strong class="text-primary">{{ total_cart }} F CFA</strong>
                         </div>
                     </div>
                 </div>
@@ -91,13 +91,13 @@
                             {% endif %}
                         </td>
                         <td>{{ item.quantity }}</td>
-                        <td>{{ item.unit_price }} €</td>
-                        <td>{{ item.total_price }} €</td>
+                        <td>{{ item.unit_price }} F CFA</td>
+                        <td>{{ item.total_price }} F CFA</td>
                     </tr>
                     {% endfor %}
                     <tr class="table-info">
                         <td colspan="3" class="text-end"><strong>Total général :</strong></td>
-                        <td><strong>{{ total_cart }} €</strong></td>
+                        <td><strong>{{ total_cart }} F CFA</strong></td>
                     </tr>
                 </tbody>
             </table>

@@ -91,6 +91,7 @@ urlpatterns = [
     path('contact/', ContactView.as_view(), name='contact'),
     path('appointment/', AppointmentView.as_view(), name='appointment'),
     path('404/', custom_404, name='404'),
+    path('403/', views.custom_403, name='403'),
     path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
     path('services/', service_view, name='services'),

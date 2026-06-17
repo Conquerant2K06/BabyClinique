@@ -1,85 +1,163 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Créer un compte</title>
+
+    <!-- Bootstrap -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+
+    <!-- CSS DIRECT -->
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #00b894, #00cec9);
+            font-family: Arial, sans-serif;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .login-card {
+            display: flex;
+            width: 900px;
+            max-width: 95%;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .login-left {
+            flex: 1;
+            background: #00b894;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+
+        .login-left img {
+            width: 100%;
+            max-width: 250px;
+            border-radius: 10px;
+        }
+
+        .login-right {
+            flex: 1;
+            padding: 40px;
+        }
+
+        .login-title {
+            margin-bottom: 20px;
+        }
+
+        .login-btn {
+            background: #00b894;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            width: 100%;
+        }
+
+        .login-btn:hover {
+            background: #019875;
+        }
+
+        .form-control {
+            border-radius: 8px;
+        }
+
+        .create-account a {
+            color: #00b894;
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .login-card {
+                flex-direction: column;
+            }
+
+            .login-left {
+                display: none;
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <div class="login-card">
-        <!-- Partie gauche avec illustration -->
-        <div class="login-left">
-            <div class="circle-bg">
-                <img src="{% static 'img/login.jpg' %}" alt="Illustration femme" class="illustration">
-                <div class="plant plant-1"></div>
-                <div class="plant plant-2"></div>
-                <div class="plant plant-3"></div>
-            </div>
-            
-            <p class="footer-text">
-                Créez votre compte pour accéder à toutes nos fonctionnalités. Simple, rapide et sécurisé.
-            </p>
-        </div>
-        
-        <!-- Partie droite avec formulaire d'inscription -->
-        <div class="login-right">
-            <div class="welcome-pill">Bienvenue !</div>
-            
-            <h4 class="login-title">Créer un compte</h4>
-            
-            {% if messages %}
-            <div class="messages">
-                {% for message in messages %}
+
+<div class="login-card">
+
+    <!-- GAUCHE -->
+    <div class="login-left">
+        <!-- image externe -->
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="illustration">
+
+        <p class="mt-3 text-center">
+            Créez votre compte pour accéder à toutes nos fonctionnalités.
+        </p>
+    </div>
+
+    <!-- DROITE -->
+    <div class="login-right">
+
+        <h4 class="login-title">Créer un compte</h4>
+
+        {% if messages %}
+            {% for message in messages %}
                 <div class="alert alert-{{ message.tags }}">
                     {{ message }}
                 </div>
-                {% endfor %}
-            </div>
-            {% endif %}
-            
-            <form method="POST" action="">
-    {% csrf_token %}
-    {{ form.non_field_errors }}
-    
-    <div class="mb-3">
-        <label for="id_username" class="form-label text-muted">Nom d'utilisateur</label>
-        {{ form.username }}
-        {{ form.username.errors }}
-    </div>
-    
-    <div class="mb-3">
-        <label for="id_email" class="form-label text-muted">Email</label>
-        {{ form.email }}
-        {{ form.email.errors }}
-    </div>
-    
-    <div class="mb-3">
-        <label for="id_password1" class="form-label text-muted">Mot de passe</label>
-        {{ form.password1 }}
-        {{ form.password1.errors }}
-    </div>
-    
-    <div class="mb-4">
-        <label for="id_password2" class="form-label text-muted">Confirmer mot de passe</label>
-        {{ form.password2 }}
-        {{ form.password2.errors }}
-    </div>
-    
-    <button type="submit" class="login-btn">S'inscrire</button>
-    
-    <div class="create-account mt-3">
-        Vous avez déjà un compte ? <a href="{% url 'login' %}">Connectez-vous</a>
-    </div>
-</form>
+            {% endfor %}
+        {% endif %}
 
-        </div>
+        <form method="POST">
+            {% csrf_token %}
+
+            {{ form.non_field_errors }}
+
+            <div class="mb-3">
+                <label>Nom d'utilisateur</label>
+                {{ form.username }}
+            </div>
+
+            <div class="mb-3">
+                <label>Email</label>
+                {{ form.email }}
+            </div>
+
+            <div class="mb-3">
+                <label>Mot de passe</label>
+                {{ form.password1 }}
+            </div>
+
+            <div class="mb-3">
+                <label>Confirmer mot de passe</label>
+                {{ form.password2 }}
+            </div>
+
+            <button type="submit" class="login-btn">
+                S'inscrire
+            </button>
+
+            <div class="create-account mt-3">
+                Déjà un compte ?
+                <a href="{% url 'login' %}">Connexion</a>
+            </div>
+        </form>
+
     </div>
-    
-    <div class="footer-credit">designé avec ♥ par freepik</div>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

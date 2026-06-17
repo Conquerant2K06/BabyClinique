@@ -23,8 +23,8 @@
                     <tr>
                         <td>{{ item.product.name }}</td>
                         <td>{{ item.quantity }}</td>
-                        <td>{{ item.product.price }} €</td>
-                        <td>{{ item.get_total_price }} €</td>
+                        <td>{{ item.product.price }} F CFA</td>
+                        <td>{{ item.get_total_price }} F CFA</td>
                         <td>
                             <form method="post" action="{% url 'remove_from_cart' item.id %}" style="display:inline;">
     {% csrf_token %}
@@ -37,7 +37,7 @@
                 {% endfor %}
                 <tr>
                     <td colspan="3" class="text-end"><strong>Total :</strong></td>
-                    <td><strong>{{ total }} €</strong></td>
+                    <td><strong>{{ total }} F CFA</strong></td>
                     <td></td>
                 </tr>
             </tbody>

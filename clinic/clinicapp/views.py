@@ -514,6 +514,10 @@ class AppointmentView(FormView):
 def custom_404(request):
     return render(request, '404.html', {'active_page': '404'})
 
+# Vue pour la page 403 personnalisée
+def custom_403(request):
+    return render(request, '404.html', {'active_page': '404'})
+
 
 
 from django.core.mail import send_mail

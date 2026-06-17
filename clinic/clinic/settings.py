@@ -26,13 +26,14 @@ SECRET_KEY = 'django-insecure-l7@93k)!&(@1!i%9p6zfzl%jrb%!5%k+bgmk9nu(w21_**zae8
 DEBUG = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'angeemmanuel2k06@gmail.com'
-EMAIL_HOST_PASSWORD = 'cver alnu uchb wojx'
+EMAIL_HOST_PASSWORD = 'skvf fnjh zrla cdqs'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 DEFAULT_FROM_EMAIL = 'angeemmanuel2k06@gmail.com'
 
-ALLOWED_HOSTS = ['127.0.0.1', '.vercel.app', 'localhost']
+ALLOWED_HOSTS = ['.vercel.app', '127.0.0.1', 'localhost']
+CSRF_TRUSTED_ORIGINS = ['https://*.vercel.app']
 
 
 # Application definition
@@ -135,6 +136,7 @@ STATIC_ROOT = 'staticfiles/'
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
@@ -146,6 +148,6 @@ if 'VERCEL' in os.environ:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': '/tmp/db.sqlite3',
+            'NAME': ':memory:',
         }
     }

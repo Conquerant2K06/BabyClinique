@@ -29,7 +29,7 @@
                             </p>
                         </div>
                         <div class="col-md-6">
-                            <p><strong>Total :</strong> <span class="h5 text-primary">{{ order.total_price }} €</span></p>
+                            <p><strong>Total :</strong> <span class="h5 text-primary">{{ order.total_price }} F CFA</span></p>
                             <p><strong>Mode de paiement :</strong> À la livraison</p>
                         </div>
                     </div>
@@ -84,15 +84,15 @@
                                         </div>
                                     </td>
                                     <td>{{ item.quantity }}</td>
-                                    <td>{{ item.price }} €</td>
-                                    <td class="text-end">{{ item.get_total_price }} €</td>
+                                    <td>{{ item.price }} F CFA</td>
+                                    <td class="text-end">{{ item.get_total_price }} F CFA</td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
                             <tfoot>
                                 <tr class="table-active">
                                     <th colspan="3" class="text-end">Total de la commande :</th>
-                                    <th class="text-end h5 text-primary">{{ order.total_price }} €</th>
+                                    <th class="text-end h5 text-primary">{{ order.total_price }} F CFA</th>
                                 </tr>
                             </tfoot>
                         </table>
@@ -128,7 +128,7 @@
                         </div>
                         <div class="col-md-6">
                             <p><strong>Frais de livraison :</strong><br>
-                            Gratuit pour les commandes > 50€</p>
+                            Gratuit pour les commandes > 500 F CFA</p>
                         </div>
                     </div>
                     <div class="alert alert-info">
