@@ -1,0 +1,420 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block header %}
+
+   
+    <!-- En-tête Début -->
+    <div class="container-fluid header bg-primary p-0 mb-5">
+        <div class="row g-0 align-items-center flex-column-reverse flex-lg-row">
+            <div class="col-lg-6 p-5 wow fadeIn" data-wow-delay="0.1s">
+                <h1 class="display-4 text-white mb-5">Une Bonne Santé Est La Racine De Tout Bonheur</h1>
+                <div class="row g-4">
+                    <div class="col-sm-4">
+                        <div class="border-start border-light ps-4">
+                            <h2 class="text-white mb-1" data-toggle="counter-up">123</h2>
+                            <p class="text-light mb-0">Médecins Experts</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="border-start border-light ps-4">
+                            <h2 class="text-white mb-1" data-toggle="counter-up">1234</h2>
+                            <p class="text-light mb-0">Personnel Médical</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="border-start border-light ps-4">
+                            <h2 class="text-white mb-1" data-toggle="counter-up">12345</h2>
+                            <p class="text-light mb-0">Total Patients</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
+                <div class="owl-carousel header-carousel">
+                    <div class="owl-carousel-item position-relative">
+                        <img class="img-fluid" src="{% static 'img/1.jpg' %}" alt="Cardiologie">
+                        <div class="owl-carousel-text">
+                            <h1 class="display-1 text-white mb-0">Cardiologie</h1>
+                        </div>
+                    </div>
+                    <div class="owl-carousel-item position-relative">
+                        <img class="img-fluid" src="{% static 'img/2.jpg' %}" alt="Neurologie">
+                        <div class="owl-carousel-text">
+                            <h1 class="display-1 text-white mb-0">Neurologie</h1>
+                        </div>
+                    </div>
+                    <div class="owl-carousel-item position-relative">
+                        <img class="img-fluid" src="{% static 'img/6.jpg' %}" alt="Pneumologie">
+                        <div class="owl-carousel-text">
+                            <h1 class="display-1 text-white mb-0">Pneumologie</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- En-tête Fin -->
+{% endblock header %}
+{% block content %}
+    <!-- À Propos Début -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
+                    <div class="d-flex flex-column">
+                        <img class="img-fluid rounded w-75 align-self-end" src="{% static 'img/1.jpg' %}" alt="Image À Propos 1">
+                        <img class="img-fluid rounded w-50 bg-white pt-3 pe-3" src="{% static 'img/2.jpg' %}" alt="Image À Propos 2" style="margin-top: -25%;">
+                    </div>
+                </div>
+                <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
+                    <p class="d-inline-block border rounded-pill py-1 px-4">À Propos De Nous</p>
+                    <h1 class="mb-4">Pourquoi Nous Faire Confiance ? Apprenez À Nous Connaître !</h1>
+                    <p>Nous sommes une équipe de professionnels dévoués à votre santé et à votre bien-être. Notre mission est de fournir des soins de qualité supérieure dans un environnement chaleureux et accueillant.</p>
+                    <p class="mb-4">Avec des années d'expérience et une expertise reconnue, nous nous engageons à offrir les meilleurs traitements médicaux adaptés à vos besoins spécifiques.</p>
+                    <p><i class="far fa-check-circle text-primary me-3"></i>Soins de santé de qualité</p>
+                    <p><i class="far fa-check-circle text-primary me-3"></i>Seulement des médecins qualifiés</p>
+                    <p><i class="far fa-check-circle text-primary me-3"></i>Professionnels de la recherche médicale</p>
+                    <a class="btn btn-primary rounded-pill py-3 px-5 mt-3" href="{% url 'about' %}">En Savoir Plus</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- À Propos Fin -->
+
+    <!-- Services Début -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
+                <p class="d-inline-block border rounded-pill py-1 px-4">Services</p>
+                <h1>Solutions De Soins De Santé</h1>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="service-item bg-light rounded h-100 p-5">
+                        <div class="d-inline-flex align-items-center justify-content-center bg-white rounded-circle mb-4" style="width: 65px; height: 65px;">
+                            <i class="fa fa-heartbeat text-primary fs-4"></i>
+                        </div>
+                        <h4 class="mb-3">Cardiologie</h4>
+                        <p class="mb-4">Spécialistes en soins cardiovasculaires avec des équipements de pointe pour diagnostiquer et traiter les maladies cardiaques.</p>
+                        <a class="btn" href="{% url 'services' %}"><i class="fa fa-plus text-primary me-3"></i>En Savoir Plus</a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="service-item bg-light rounded h-100 p-5">
+                        <div class="d-inline-flex align-items-center justify-content-center bg-white rounded-circle mb-4" style="width: 65px; height: 65px;">
+                            <i class="fa fa-x-ray text-primary fs-4"></i>
+                        </div>
+                        <h4 class="mb-3">Pneumologie</h4>
+                        <p class="mb-4">Traitement complet des maladies respiratoires avec des technologies modernes de diagnostic et de thérapie.</p>
+                        <a class="btn" href="{% url 'services' %}"><i class="fa fa-plus text-primary me-3"></i>En Savoir Plus</a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+                    <div class="service-item bg-light rounded h-100 p-5">
+                        <div class="d-inline-flex align-items-center justify-content-center bg-white rounded-circle mb-4" style="width: 65px; height: 65px;">
+                            <i class="fa fa-brain text-primary fs-4"></i>
+                        </div>
+                        <h4 class="mb-3">Neurologie</h4>
+                        <p class="mb-4">Expertise en troubles neurologiques avec des approches innovantes pour le traitement des maladies du système nerveux.</p>
+                        <a class="btn" href="{% url 'services' %}"><i class="fa fa-plus text-primary me-3"></i>En Savoir Plus</a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="service-item bg-light rounded h-100 p-5">
+                        <div class="d-inline-flex align-items-center justify-content-center bg-white rounded-circle mb-4" style="width: 65px; height: 65px;">
+                            <i class="fa fa-wheelchair text-primary fs-4"></i>
+                        </div>
+                        <h4 class="mb-3">Orthopédie</h4>
+                        <p class="mb-4">Soins spécialisés pour les troubles musculo-squelettiques avec des techniques chirurgicales avancées.</p>
+                        <a class="btn" href="{% url 'services' %}"><i class="fa fa-plus text-primary me-3"></i>En Savoir Plus</a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="service-item bg-light rounded h-100 p-5">
+                        <div class="d-inline-flex align-items-center justify-content-center bg-white rounded-circle mb-4" style="width: 65px; height: 65px;">
+                            <i class="fa fa-tooth text-primary fs-4"></i>
+                        </div>
+                        <h4 class="mb-3">Chirurgie Dentaire</h4>
+                        <p class="mb-4">Services dentaires complets incluant la chirurgie orale et les traitements esthétiques dentaires.</p>
+                        <a class="btn" href="{% url 'services' %}"><i class="fa fa-plus text-primary me-3"></i>En Savoir Plus</a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+                    <div class="service-item bg-light rounded h-100 p-5">
+                        <div class="d-inline-flex align-items-center justify-content-center bg-white rounded-circle mb-4" style="width: 65px; height: 65px;">
+                            <i class="fa fa-vials text-primary fs-4"></i>
+                        </div>
+                        <h4 class="mb-3">Laboratoire</h4>
+                        <p class="mb-4">Analyses médicales précises avec des équipements de laboratoire de dernière génération pour des résultats fiables.</p>
+                        <a class="btn" href="{% url 'services' %}"><i class="fa fa-plus text-primary me-3"></i>En Savoir Plus</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Services Fin -->
+
+    <!-- Caractéristiques Début -->
+    <div class="container-fluid bg-primary overflow-hidden my-5 px-lg-0">
+        <div class="container feature px-lg-0">
+            <div class="row g-0 mx-lg-0">
+                <div class="col-lg-6 feature-text py-5 wow fadeIn" data-wow-delay="0.1s">
+                    <div class="p-lg-5 ps-lg-0">
+                        <p class="d-inline-block border rounded-pill text-light py-1 px-4">Caractéristiques</p>
+                        <h1 class="text-white mb-4">Pourquoi Nous Choisir</h1>
+                        <p class="text-white mb-4 pb-2">Notre engagement envers l'excellence médicale et le bien-être de nos patients fait de nous le choix idéal pour vos besoins de santé. Nous combinons expertise, technologie et compassion.</p>
+                        <div class="row g-4">
+                            <div class="col-6">
+                                <div class="d-flex align-items-center">
+                                    <div class="d-flex flex-shrink-0 align-items-center justify-content-center rounded-circle bg-light" style="width: 55px; height: 55px;">
+                                        <i class="fa fa-user-md text-primary"></i>
+                                    </div>
+                                    <div class="ms-4">
+                                        <p class="text-white mb-2">Médecins</p>
+                                        <h5 class="text-white mb-0">Expérimentés</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="d-flex align-items-center">
+                                    <div class="d-flex flex-shrink-0 align-items-center justify-content-center rounded-circle bg-light" style="width: 55px; height: 55px;">
+                                        <i class="fa fa-check text-primary"></i>
+                                    </div>
+                                    <div class="ms-4">
+                                        <p class="text-white mb-2">Services</p>
+                                        <h5 class="text-white mb-0">De Qualité</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="d-flex align-items-center">
+                                    <div class="d-flex flex-shrink-0 align-items-center justify-content-center rounded-circle bg-light" style="width: 55px; height: 55px;">
+                                        <i class="fa fa-comment-medical text-primary"></i>
+                                    </div>
+                                    <div class="ms-4">
+                                        <p class="text-white mb-2">Consultation</p>
+                                        <h5 class="text-white mb-0">Positive</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="d-flex align-items-center">
+                                    <div class="d-flex flex-shrink-0 align-items-center justify-content-center rounded-circle bg-light" style="width: 55px; height: 55px;">
+                                        <i class="fa fa-headphones text-primary"></i>
+                                    </div>
+                                    <div class="ms-4">
+                                        <p class="text-white mb-2">Support</p>
+                                        <h5 class="text-white mb-0">24h/24</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 pe-lg-0 wow fadeIn" data-wow-delay="0.5s" style="min-height: 400px;">
+                    <div class="position-relative h-100">
+                        <img class="position-absolute img-fluid w-100 h-100" src="{% static 'img/4.jpg' %}" style="object-fit: cover;" alt="Image Caractéristiques">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Caractéristiques Fin -->
+
+    <!-- Équipe Début -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
+                <p class="d-inline-block border rounded-pill py-1 px-4">Médecins</p>
+                <h1>Nos Médecins Expérimentés</h1>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="team-item position-relative rounded overflow-hidden">
+                        <div class="overflow-hidden">
+                            <img class="img-fluid" src="{% static 'img/1.jpg' %}" alt="Docteur 1">
+                        </div>
+                        <div class="team-text bg-light text-center p-4">
+                            <h5>Dr KAKOU</h5>
+                            <p class="text-primary">DERMATHOLOGIE</p>
+                            <div class="team-social text-center">
+                                <a class="btn btn-square" href=""><i class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-square" href=""><i class="fab fa-twitter"></i></a>
+                                <a class="btn btn-square" href=""><i class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="team-item position-relative rounded overflow-hidden">
+                        <div class="overflow-hidden">
+                            <img class="img-fluid" src="{% static 'img/2.jpg' %}" alt="Docteur 2">
+                        </div>
+                        <div class="team-text bg-light text-center p-4">
+                            <h5>Dr JEAN NOEL</h5>
+                            <p class="text-primary">PEDIATRIE</p>
+                            <div class="team-social text-center">
+                                <a class="btn btn-square" href=""><i class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-square" href=""><i class="fab fa-twitter"></i></a>
+                                <a class="btn btn-square" href=""><i class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+                    <div class="team-item position-relative rounded overflow-hidden">
+                        <div class="overflow-hidden">
+                            <img class="img-fluid" src="{% static 'img/6.jpg' %}" alt="Docteur 3">
+                        </div>
+                        <div class="team-text bg-light text-center p-4">
+                            <h5>Dr EBOUE</h5>
+                            <p class="text-primary">PEDOLOGIE</p>
+                            <div class="team-social text-center">
+                                <a class="btn btn-square" href=""><i class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-square" href=""><i class="fab fa-twitter"></i></a>
+                                <a class="btn btn-square" href=""><i class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.7s">
+                    <div class="team-item position-relative rounded overflow-hidden">
+                        <div class="overflow-hidden">
+                            <img class="img-fluid" src="{% static 'img/1.jpg' %}" alt="Docteur 4">
+                        </div>
+                        <div class="team-text bg-light text-center p-4"> 
+                            <h5>Dr LOBA</h5>
+                            <p class="text-primary">PNEUMOLOGIE</p>
+                            <div class="team-social text-center">
+                                <a class="btn btn-square" href=""><i class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-square" href=""><i class="fab fa-twitter"></i></a>
+                                <a class="btn btn-square" href=""><i class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Équipe Fin -->
+
+    <!-- Rendez-vous Début -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <p class="d-inline-block border rounded-pill py-1 px-4">Rendez-vous</p>
+                    <h1 class="mb-4">Prenez Rendez-vous Pour Consulter Nos Médecins</h1>
+                    <p class="mb-4">Planifiez votre consultation avec nos spécialistes expérimentés. Nous nous engageons à vous offrir des soins personnalisés et de qualité dans un environnement confortable et sécurisé.</p>
+                    <div class="bg-light rounded d-flex align-items-center p-5 mb-4">
+                        <div class="d-flex flex-shrink-0 align-items-center justify-content-center rounded-circle bg-white" style="width: 55px; height: 55px;">
+                            <i class="fa fa-phone-alt text-primary"></i>
+                        </div>
+                        <div class="ms-4">
+                            <p class="mb-2">Appelez-nous Maintenant</p>
+                            <h5 class="mb-0">+225 0777612521</h5>
+                        </div>
+                    </div>
+                    <div class="bg-light rounded d-flex align-items-center p-5">
+                        <div class="d-flex flex-shrink-0 align-items-center justify-content-center rounded-circle bg-white" style="width: 55px; height: 55px;">
+                            <i class="fa fa-envelope-open text-primary"></i>
+                        </div>
+                        <div class="ms-4">
+                            <p class="mb-2">Écrivez-nous Maintenant</p>
+                            <h5 class="mb-0">babyclinique@gmail.com</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
+                    <div class="bg-light rounded h-100 d-flex align-items-center p-5">
+                        <form action="{% url 'appointment' %}" method="post">
+                            {% csrf_token %}
+                            <div class="row g-3">
+                                <div class="col-12 col-sm-6">
+                                    <input type="text" name="name" class="form-control border-0" placeholder="Votre Nom" style="height: 55px;" required>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <input type="email" name="email" class="form-control border-0" placeholder="Votre Email" style="height: 55px;" required>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <input type="text" name="mobile" class="form-control border-0" placeholder="Votre Téléphone" style="height: 55px;" required>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <select name="doctor" class="form-select border-0" style="height: 55px;" required>
+                                        <option selected disabled>Choisir un Médecin</option>
+                                        <option value="1">Dr KOFFI</option>
+                                        <option value="2">Dr EBOUE </option>
+                                        <option value="3">Dr JEAN NOEL</option>
+                                    </select>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <div class="date" id="date" data-target-input="nearest">
+                                        <input type="text" name="date"
+                                            class="form-control border-0 datetimepicker-input"
+                                            placeholder="Choisir une Date" data-target="#date" data-toggle="datetimepicker" style="height: 55px;" required>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <div class="time" id="time" data-target-input="nearest">
+                                        <input type="text" name="time"
+                                            class="form-control border-0 datetimepicker-input"
+                                            placeholder="Choisir une Heure" data-target="#time" data-toggle="datetimepicker" style="height: 55px;" required>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <textarea name="problem" class="form-control border-0" rows="5" placeholder="Décrivez votre problème" required></textarea>
+                                </div>
+                                <div class="col-12">
+                                    <button class="btn btn-primary w-100 py-3" type="submit">Réserver un Rendez-vous</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Rendez-vous Fin -->
+
+    <!-- Témoignages Début -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
+                <p class="d-inline-block border rounded-pill py-1 px-4">Témoignages</p>
+                <h1>Ce Que Disent Nos Patients !</h1>
+            </div>
+            <div class="owl-carousel testimonial-carousel wow fadeInUp" data-wow-delay="0.1s">
+                <div class="testimonial-item text-center">
+                    <img class="img-fluid bg-light rounded-circle p-2 mx-auto mb-4" src="{% static 'img/5.jpg' %}" style="width: 100px; height: 100px;" alt="Patient 1">
+                    <div class="testimonial-text rounded text-center p-4">
+                        <p>Une équipe exceptionnelle et des soins de qualité supérieure. Je recommande vivement cette clinique pour leur professionnalisme et leur attention aux détails. L'expérience a été remarquable du début à la fin.</p>
+                        <h5 class="mb-1">Nom du Patient</h5>
+                        <span class="fst-italic">Profession</span>
+                    </div>
+                </div>
+                <div class="testimonial-item text-center">
+                    <img class="img-fluid bg-light rounded-circle p-2 mx-auto mb-4" src="{% static 'img/6.jpg' %}" style="width: 100px; height: 100px;" alt="Patient 2">
+                    <div class="testimonial-text rounded text-center p-4">
+                        <p>Des médecins compétents et un personnel attentionné. Les installations sont modernes et l'accueil est chaleureux. Je me suis senti en confiance tout au long de mon traitement.</p>
+                        <h5 class="mb-1">Nom du Patient</h5>
+                        <span class="fst-italic">Profession</span>
+                    </div>
+                </div>
+                <div class="testimonial-item text-center">
+                    <img class="img-fluid bg-light rounded-circle p-2 mx-auto mb-4" src="{% static 'img/7.jpg' %}" style="width: 100px; height: 100px;" alt="Patient 3">
+                    <div class="testimonial-text rounded text-center p-4">
+                        <p>Service exceptionnel et résultats impressionnants. L'équipe médicale est non seulement qualifiée mais aussi très humaine. Une expérience médicale positive à tous les niveaux.</p>
+                        <h5 class="mb-1">Nom du Patient</h5>
+                        <span class="fst-italic">Profession</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Témoignages Fin -->
+
+    
+</body>
+{% endblock content %}
+
+</html>
